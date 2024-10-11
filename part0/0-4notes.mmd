@@ -1,0 +1,35 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: Usuário escreve uma nova nota e clica em 'submit'
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    Note left of server: Servidor processa a nova nota
+    server-->>browser: HTTP 302 (Redirecionamento para /notes)
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: O navegador começa a executar o JavaScript
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "Nova nota", "date": "2023-5-11" }, ... ]
+    deactivate server
+
+    Note right of browser: O navegador executa a callback que renderiza as notas, incluindo a nova
